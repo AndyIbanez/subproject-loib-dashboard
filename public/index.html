@@ -147,11 +147,18 @@
 	//Process the message
 	socket.on('message', function(msg) {
 		console.log('received data: ' + msg);
+		//alert("received data " + msg);
 		//console.log(JSON.stringify(msg));
 		// console.log(msg.temperature);
 		// console.log(msg.device)
 		//Add it to the value array
-		deviceValue[msg.deviceid] = msg.accx;
+		//deviceValue[msg.deviceid] = msg.accx;
+		deviceValue[0] = 1;
+		deviceValue[1] = 10;
+		deviceValue[2] = 20;
+		deviceValue[3] = 30;
+		deviceValue[4] = 40;
+		deviceValue[5] = 50;
 	});
 
 	//tick for D3 graphics

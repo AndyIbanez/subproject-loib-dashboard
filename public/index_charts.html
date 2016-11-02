@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sensors</title>
+	<!--Reference Socket.io-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://raw.githubusercontent.com/joewalnes/smoothie/master/smoothie.js"></script>
+
+</head>
+<body>
+
+<h1>Accelerometer</h1>
+<div style="width:100%;">
+	<div style="float: left; width: 33%;"><h4>X</h4><canvas id="accx_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>Y</h4><canvas id="accy_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>Z</h4><canvas id="accz_canvas" width="400" height="100"></canvas></div>
+</div>
+
+<h1>Gyroscope</h1>
+<div style="width:100%;">
+	<div style="float: left; width: 33%;"><h4>X</h4><canvas id="gyrox_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>Y</h4><canvas id="gyroy_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>Z</h4><canvas id="gyroz_canvas" width="400" height="100"></canvas></div>
+</div>
+
+<script type="text/javascript">
+
+	var accxChart = new SmoothieChart();
+	accxChart.streamTo(document.getElementById("accx_canvas"));
+	var accyChart = new SmoothieChart();
+	accyChart.streamTo(document.getElementById("accy_canvas"));
+	var acczChart = new SmoothieChart();
+	acczChart.streamTo(document.getElementById("accz_canvas"));
+	var gyroxChart = new SmoothieChart();
+	gyroxChart.streamTo(document.getElementById("gyrox_canvas"));
+	var gyroyChart = new SmoothieChart();
+	gyroyChart.streamTo(document.getElementById("gyroy_canvas"));
+	var gyrozChart = new SmoothieChart();
+	gyrozChart.streamTo(document.getElementById("gyroz_canvas"));
+
+	// Data
+	var accxLine = new TimeSeries();
+	var accyLine = new TimeSeries();
+	var acczLine = new TimeSeries();
+	var gyroxLine = new TimeSeries();
+	var gyroyLine = new TimeSeries();
+	var gyrozLine = new TimeSeries();
+
+	var socket = io();
+	socket.on('message', function(msg){
+  		accxLine.append(new Date().getTime(), msg.accx);
+  		accyLine.append(new Date().getTime(), msg.accy);
+  		acczLine.append(new Date().getTime(), msg.accz);
+  		gyroxLine.append(new Date().getTime(), msg.gyrox);
+  		gyroyLine.append(new Date().getTime(), msg.gyrox);
+  		gyrozLine.append(new Date().getTime(), msg.gyrox);
+	});
+
+	// Add a random value to each line every second
+	/*setInterval(function() {
+  		accxLine.append(new Date().getTime(), Math.random());
+  		accyLine.append(new Date().getTime(), Math.random());
+  		acczLine.append(new Date().getTime(), Math.random());
+  		gyroxLine.append(new Date().getTime(), Math.random());
+  		gyroyLine.append(new Date().getTime(), Math.random());
+  		gyrozLine.append(new Date().getTime(), Math.random());
+	}, 1000);*/
+
+	// Add to SmoothieChart
+	accxChart.addTimeSeries(accxLine);
+	accyChart.addTimeSeries(accyLine);
+	acczChart.addTimeSeries(acczLine);
+	gyroxChart.addTimeSeries(gyroxLine);
+	gyroyChart.addTimeSeries(gyroxLine);
+	gyrozChart.addTimeSeries(gyrozLine);
+	//accxChart.streamTo(document.getElementById("accx_canvas"), 1000 /*delay*/);
+</script>
+
+</body>
+</html>

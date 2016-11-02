@@ -15,7 +15,7 @@ server.listen(port, function() {
 // data is in JSON format {"deviceid":,"accx":,"accy":,"accz":,"gyrox":,"gyroy":,"gyroz":}
 io.on('connection', function(socket) {
   socket.on('message', function(data) {
-    console.log('got data' + data.accx);
+    console.log('got data' + data);
     socket.broadcast.emit('message', data);
   });
 });
