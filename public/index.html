@@ -9,18 +9,28 @@
 </head>
 <body>
 
-<h1>Accelerometer</h1>
 <div style="width:100%;">
-	<div style="float: left; width: 33%;"><h4>X</h4><canvas id="accx_canvas" width="400" height="100"></canvas></div>
-	<div style="float: left; width: 33%;"><h4>Y</h4><canvas id="accy_canvas" width="400" height="100"></canvas></div>
-	<div style="float: left; width: 33%;"><h4>Z</h4><canvas id="accz_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h1>Accelerometer</h1></div>
+	<div style="float: left; width: 33%;"><h1>Gyroscope</h1></div>
+	<div style="float: left; width: 33%;"><h1>PPG</h1></div>
 </div>
 
-<h1>Gyroscope</h1>
 <div style="width:100%;">
+	<div style="float: left; width: 33%;"><h4>X</h4><canvas id="accx_canvas" width="400" height="100"></canvas></div>
 	<div style="float: left; width: 33%;"><h4>X</h4><canvas id="gyrox_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>RED_1</h4><canvas id="_canvas" width="400" height="100"></canvas></div>
+</div>
+
+<div style="width:100%;">
+	<div style="float: left; width: 33%;"><h4>Y</h4><canvas id="accy_canvas" width="400" height="100"></canvas></div>
 	<div style="float: left; width: 33%;"><h4>Y</h4><canvas id="gyroy_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><h4>IR_1</h4><canvas id="red_canvas" width="400" height="100"></canvas></div>
+</div>
+
+<div style="width:100%;">
+	<div style="float: left; width: 33%;"><h4>Z</h4><canvas id="accz_canvas" width="400" height="100"></canvas></div>
 	<div style="float: left; width: 33%;"><h4>Z</h4><canvas id="gyroz_canvas" width="400" height="100"></canvas></div>
+	<div style="float: left; width: 33%;"><canvas id="ir_canvas" width="400" height="100"></canvas></div>
 </div>
 
 <script type="text/javascript">
@@ -38,6 +48,12 @@
 	var gyrozChart = new SmoothieChart();
 	gyrozChart.streamTo(document.getElementById("gyroz_canvas"));
 
+	var red1Chart = new SmoothieChart();
+	red1Chart.streamTo(document.getElementById("red_canvas"));
+
+	var ir1Chart = new SmoothieChart();
+	ir1Chart.streamTo(document.getElementById("ir_canvas"));
+
 	// Data
 	var accxLine = new TimeSeries();
 	var accyLine = new TimeSeries();
@@ -45,6 +61,8 @@
 	var gyroxLine = new TimeSeries();
 	var gyroyLine = new TimeSeries();
 	var gyrozLine = new TimeSeries();
+	var red1Line = new TimeSeries();
+	var ir1Line = new TimeSeries();
 
 	var socket = io();
 	socket.on('message', function(msg){
@@ -54,6 +72,8 @@
   		gyroxLine.append(new Date().getTime(), msg.gyrox);
   		gyroyLine.append(new Date().getTime(), msg.gyrox);
   		gyrozLine.append(new Date().getTime(), msg.gyrox);
+  		red1Line.append(new Date().getTime(), msg.red_1);
+  		ir1Line.append(new Date().getTime(), msg.ir_1);
 	});
 
 	// Add a random value to each line every second
@@ -73,6 +93,8 @@
 	gyroxChart.addTimeSeries(gyroxLine);
 	gyroyChart.addTimeSeries(gyroxLine);
 	gyrozChart.addTimeSeries(gyrozLine);
+	red1Chart.addTimeSeries(red1Line);
+	ir1Chart.addTimeSeries(ir1Line);
 	//accxChart.streamTo(document.getElementById("accx_canvas"), 1000 /*delay*/);
 </script>
 
